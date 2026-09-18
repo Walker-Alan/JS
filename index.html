@@ -1,93 +1,415 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>全屏图片</title>
-  <style>
-    :root {
-      color-scheme: dark;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>姚友福 &amp; 林航吉 · 订婚宴邀请函</title>
+<style>
+  :root {
+    --paper: #f4ede2;
+    --paper-deep: #ede3d3;
+    --red: #c8281e;
+    --red-soft: #d9534a;
+    --ink: #3a3230;
+    --ink-soft: #6b5f58;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    position: relative;
+  }
+  /* 纸张纹理背景 */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(214,178,148,.18), transparent 45%),
+      radial-gradient(ellipse at 85% 30%, rgba(214,178,148,.14), transparent 40%),
+      radial-gradient(ellipse at 50% 90%, rgba(210,170,140,.16), transparent 50%),
+      radial-gradient(ellipse at 70% 65%, rgba(224,196,168,.12), transparent 45%),
+      var(--paper);
+    pointer-events: none;
+    z-index: 0;
+  }
+  /* 右侧淡淡的大同心圆纹理（模拟指纹装饰） */
+  body::after {
+    content: "";
+    position: fixed;
+    right: -18vw; top: 22vh;
+    width: 80vw; height: 80vw;
+    border-radius: 50%;
+    background: repeating-radial-gradient(circle, transparent 0 14px, rgba(200,140,120,.06) 14px 15px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .page { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 28px 22px 56px; }
 
-    * {
-      box-sizing: border-box;
-    }
+  /* 散落的囍字 */
+  .xi {
+    position: fixed;
+    font-family: "Kaiti SC", "STKaiti", "KaiTi", serif;
+    color: var(--red);
+    opacity: .55;
+    z-index: 0;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+    text-shadow: 0 1px 2px rgba(160,30,20,.15);
+  }
+  .xi.x1 { top: 4%;  left: 6%;  font-size: 34px; transform: rotate(-18deg); }
+  .xi.x2 { top: 15%; right: 5%; font-size: 24px; transform: rotate(14deg);  animation-delay: -2s; opacity:.4; }
+  .xi.x3 { top: 44%; left: 3%;  font-size: 28px; transform: rotate(10deg);  animation-delay: -4s; opacity:.45; }
+  .xi.x4 { top: 62%; right: 4%; font-size: 30px; transform: rotate(-12deg); animation-delay: -1s; opacity:.4; }
+  .xi.x5 { bottom: 8%; left: 8%; font-size: 24px; transform: rotate(16deg);  animation-delay: -3s; opacity:.35; }
+  @keyframes float {
+    0%, 100% { margin-top: 0; }
+    50% { margin-top: -8px; }
+  }
 
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-      background: #000;
-    }
+  /* 顶部 */
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .welcome {
+    font-family: "Bradley Hand", "Comic Sans MS", "Segoe Script", cursive;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0 rgba(200,40,30,.12);
+  }
+  .xi-big {
+    font-family: "Kaiti SC", "STKaiti", "KaiTi", serif;
+    font-size: 40px;
+    color: var(--red);
+    transform: rotate(12deg);
+    text-shadow: 1px 2px 0 rgba(160,30,20,.2);
+  }
+  .en-title {
+    text-align: center;
+    font-family: "Courier New", monospace;
+    font-weight: 700;
+    font-size: 21px;
+    letter-spacing: 6px;
+    color: var(--red);
+    margin: 10px 0 4px;
+  }
+  .divider-wings {
+    text-align: center;
+    color: var(--red-soft);
+    font-size: 15px;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+    opacity: .8;
+  }
 
-    .page {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      background: #000;
-    }
+  /* 照片 */
+  .photo-wrap {
+    margin: 14px auto 0;
+    width: 88%;
+    background: #fff;
+    padding: 10px 10px 14px;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(90,60,40,.18), 0 2px 6px rgba(90,60,40,.1);
+    transform: rotate(-1.2deg);
+  }
+  .photo-wrap img {
+    display: block;
+    width: 100%;
+    border-radius: 3px;
+  }
 
-    .page img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
+  /* 邀请语 */
+  .invite-cn {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 30px 0 12px;
+    color: var(--ink);
+  }
+  .invite-en {
+    text-align: center;
+    font-family: "Courier New", monospace;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.7;
+    color: var(--red);
+    margin-bottom: 30px;
+  }
 
-    .audio {
-      position: fixed;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-  </style>
+  /* 姓名 */
+  .names-section { text-align: center; margin-bottom: 34px; position: relative; }
+  .ring-icon { font-size: 26px; margin-bottom: 6px; }
+  .names {
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--ink);
+  }
+  .names .amp { color: var(--red); margin: 0 6px; font-family: "Courier New", monospace; }
+
+  /* 日期时间 */
+  .section-title {
+    text-align: center;
+    font-family: "Courier New", monospace;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 5px;
+    color: var(--red);
+    margin: 0 0 16px;
+  }
+  .date-card {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .date-line {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--ink);
+  }
+  .lunar-line {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--ink);
+    margin-top: 8px;
+  }
+
+  /* 倒计时 */
+  .countdown {
+    display: flex; justify-content: center; gap: 10px;
+    margin: 22px 0 34px;
+  }
+  .cd-cell {
+    background: rgba(255,255,255,.72);
+    border: 1px solid rgba(200,40,30,.22);
+    border-radius: 10px;
+    min-width: 62px;
+    padding: 8px 4px 6px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(120,80,50,.08);
+  }
+  .cd-num {
+    font-family: "Courier New", monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--red);
+  }
+  .cd-label { font-size: 11px; color: var(--ink-soft); margin-top: 2px; letter-spacing: 1px; }
+
+  /* 宴席插画 */
+  .banquet-art {
+    text-align: center;
+    font-size: 40px;
+    letter-spacing: 6px;
+    margin: 6px 0 30px;
+    filter: sepia(.5) opacity(.85);
+  }
+
+  /* 地点 */
+  .venue {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--ink);
+    margin-bottom: 30px;
+  }
+  .venue .heart { color: var(--red); font-size: 20px; }
+  .venue a { color: inherit; text-decoration: none; border-bottom: 1px dashed rgba(200,40,30,.4); }
+
+  /* 结尾 */
+  .thanks {
+    text-align: center;
+    font-size: 16.5px;
+    font-weight: 700;
+    line-height: 1.9;
+    letter-spacing: 1.5px;
+    color: var(--ink);
+  }
+  .hearts-row {
+    text-align: center;
+    margin-top: 26px;
+    color: var(--red-soft);
+    font-size: 16px;
+    letter-spacing: 8px;
+    opacity: .85;
+  }
+
+  /* 音乐按钮 */
+  .music-btn {
+    position: fixed;
+    top: 16px; right: 16px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(200,40,30,.4);
+    background: rgba(255,255,255,.78);
+    color: var(--red);
+    font-size: 20px;
+    z-index: 5;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(120,80,50,.18);
+    backdrop-filter: blur(2px);
+  }
+  .music-btn .music-icon {
+    display: inline-block;
+    line-height: 1;
+  }
+  .music-btn.playing .music-icon {
+    animation: spin 3.2s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* 入场动画 */
+  .fade-in { opacity: 0; transform: translateY(18px); animation: rise .8s ease forwards; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+  .d1 { animation-delay: .1s; } .d2 { animation-delay: .25s; } .d3 { animation-delay: .4s; }
+  .d4 { animation-delay: .55s; } .d5 { animation-delay: .7s; } .d6 { animation-delay: .85s; }
+  .d7 { animation-delay: 1s; }  .d8 { animation-delay: 1.15s; } .d9 { animation-delay: 1.3s; }
+</style>
 </head>
 <body>
-  <main class="page">
-    <img src="d5d7d11a3574a8c4b62d4aeb589d0cc6.jpg" alt="">
-  </main>
+  <!-- 背景音乐：周杰伦《花海》 -->
+  <audio id="bgm" src="%E5%91%A8%E6%9D%B0%E4%BC%A6-%E8%8A%B1%E6%B5%B7.mp3" loop preload="auto" autoplay playsinline webkit-playsinline></audio>
+  <!-- 音乐控制按钮 -->
+  <button id="music-btn" class="music-btn" aria-label="背景音乐开关" title="背景音乐：花海">
+    <span class="music-icon">♪</span>
+  </button>
 
-  <audio
-    id="backgroundMusic"
-    class="audio"
-    src="%E5%91%A8%E6%9D%B0%E4%BC%A6-%E8%8A%B1%E6%B5%B7.mp3"
-    autoplay
-    loop
-    playsinline
-    preload="auto"
-  ></audio>
+  <span class="xi x1">囍</span>
+  <span class="xi x2">囍</span>
+  <span class="xi x3">囍</span>
+  <span class="xi x4">囍</span>
+  <span class="xi x5">囍</span>
 
-  <script>
-    const music = document.getElementById('backgroundMusic');
+  <div class="page">
+    <!-- 顶部 -->
+    <div class="top-bar fade-in d1">
+      <div class="welcome">Welcome</div>
+      <div class="xi-big">囍</div>
+    </div>
+    <div class="en-title fade-in d1">Engagement&nbsp;Banquet</div>
+    <div class="divider-wings fade-in d2">𓆃 ─── ❤ ─── 𓆃</div>
 
-    function startMusic() {
-      music.play().catch(() => {});
+    <!-- 照片 -->
+    <div class="photo-wrap fade-in d2">
+      <img src="d5d7d11a3574a8c4b62d4aeb589d0cc6.jpg" alt="姚友福 &amp; 林航吉">
+    </div>
+
+    <!-- 邀请语 -->
+    <div class="invite-cn fade-in d3">真挚邀请你来参加我们的订婚宴</div>
+    <div class="invite-en fade-in d3">We sincerely invite you to our<br>engagement banquet</div>
+
+    <!-- 姓名 -->
+    <div class="names-section fade-in d4">
+      <div class="ring-icon">💍</div>
+      <div class="names">姚友福<span class="amp">&amp;</span>林航吉</div>
+    </div>
+
+    <!-- 日期 -->
+    <div class="section-title fade-in d5">Date&nbsp;&amp;&nbsp;Time</div>
+    <div class="date-card fade-in d5">
+      <div class="date-line">2026年10月3日 · 星期六</div>
+      <div class="lunar-line">农历八月廿三 · 中午 11:30</div>
+    </div>
+
+    <!-- 倒计时 -->
+    <div class="countdown fade-in d6">
+      <div class="cd-cell"><div class="cd-num" id="cd-d">--</div><div class="cd-label">天</div></div>
+      <div class="cd-cell"><div class="cd-num" id="cd-h">--</div><div class="cd-label">时</div></div>
+      <div class="cd-cell"><div class="cd-num" id="cd-m">--</div><div class="cd-label">分</div></div>
+      <div class="cd-cell"><div class="cd-num" id="cd-s">--</div><div class="cd-label">秒</div></div>
+    </div>
+
+    <!-- 宴席插画 -->
+    <div class="banquet-art fade-in d7">🍷🕯️🌹🥂🍰</div>
+
+    <!-- 地点 -->
+    <div class="venue fade-in d8">
+      <span class="heart">❤</span>
+      <span>福清国惠大酒店 · 华宴厅</span>
+    </div>
+
+    <!-- 结尾 -->
+    <div class="thanks fade-in d9">
+      感谢您不远万里来参加我们的订婚宴<br>期待与您相聚
+    </div>
+    <div class="hearts-row fade-in d9">♡ ♥ ♡</div>
+  </div>
+
+<script>
+  // 婚期倒计时：2026-10-03 11:30
+  var target = new Date(2026, 9, 3, 11, 30, 0).getTime();
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function tick() {
+    var diff = target - Date.now();
+    if (diff < 0) diff = 0;
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor(diff % 86400000 / 3600000);
+    var m = Math.floor(diff % 3600000 / 60000);
+    var s = Math.floor(diff % 60000 / 1000);
+    document.getElementById("cd-d").textContent = pad(d);
+    document.getElementById("cd-h").textContent = pad(h);
+    document.getElementById("cd-m").textContent = pad(m);
+    document.getElementById("cd-s").textContent = pad(s);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* 背景音乐控制 */
+  var bgm = document.getElementById("bgm");
+  var musicBtn = document.getElementById("music-btn");
+
+  function startMusic() {
+    var p = bgm.play();
+    if (p && p.then) {
+      p.then(function () {
+        musicBtn.classList.add("playing");
+      }).catch(function () {
+        // 被浏览器拦截，等待用户手势
+      });
     }
-
+  }
+  // 多时机尝试自动播放（提升成功率）
+  function tryAuto() { startMusic(); }
+  if (document.readyState === "complete" || document.readyState === "interactive") {
     startMusic();
+  } else {
+    document.addEventListener("DOMContentLoaded", tryAuto);
+  }
+  window.addEventListener("load", tryAuto);
+  setTimeout(tryAuto, 300);
+  setTimeout(tryAuto, 1200);
+  // 兜底：首次触摸/点击页面任意处即播放
+  function firstGesture() {
+    startMusic();
+    document.removeEventListener("touchstart", firstGesture);
+    document.removeEventListener("click", firstGesture);
+    document.removeEventListener("pointerdown", firstGesture);
+  }
+  document.addEventListener("touchstart", firstGesture, { once: true });
+  document.addEventListener("click", firstGesture, { once: true });
+  document.addEventListener("pointerdown", firstGesture, { once: true });
 
-    function enableSound() {
-      music.muted = false;
-      music.volume = 1;
-      startMusic();
-      window.removeEventListener('pointerdown', enableSound);
-      window.removeEventListener('touchstart', enableSound);
-      window.removeEventListener('keydown', enableSound);
+  // 手动开关
+  musicBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (bgm.paused) {
+      bgm.play().then(function () { musicBtn.classList.add("playing"); });
+    } else {
+      bgm.pause();
+      musicBtn.classList.remove("playing");
     }
-
-    window.addEventListener('pointerdown', enableSound, { once: true });
-    window.addEventListener('touchstart', enableSound, { once: true, passive: true });
-    window.addEventListener('keydown', enableSound, { once: true });
-  </script>
+  });
+</script>
 </body>
 </html>
